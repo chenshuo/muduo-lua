@@ -14,6 +14,12 @@ string loadFile(const char* filename)
   return content;
 }
 
+int l_now(lua_State* L)
+{
+  lua_pushstring(L, Timestamp::now().toFormattedString().c_str());
+  return 1;
+}
+
 int main()
 {
   Lua lua;
@@ -24,18 +30,20 @@ int main()
   }
   else
   {
-    int top = lua.gettop();
+    // int top = lua.gettop();
+    lua_register(lua.state(), "now", l_now);
 
     if (lua.loadstring(luaprogram) == 0 &&
         lua.pcall(0, LUA_MULTRET) == 0)
     {
       LOG_INFO << lua.callStringFunc("hello");
+      LOG_INFO << lua.callStringFunc("callback");
     }
     else
     {
       LOG_ERROR << lua.popstring();
     }
-    assert(lua.gettop() == top);
+    // assert(lua.gettop() == top);
   }
 
 }
