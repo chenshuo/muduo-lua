@@ -49,6 +49,8 @@ message(STATUS ${Muduo_LIBRARY_DIR})
 include_directories(${Muduo_INCLUDE_DIR})
 find_library(muduo_base muduo_base)
 find_library(muduo_net muduo_net)
+find_library(muduo_http muduo_http)
+find_library(muduo_inspect muduo_inspect)
 message(STATUS ${muduo_base})
 message(STATUS ${muduo_net})
 
@@ -59,4 +61,5 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 add_subdirectory(lua)
 add_subdirectory(hello)
+add_subdirectory(world)
 

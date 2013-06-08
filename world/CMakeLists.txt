@@ -1,0 +1,7 @@
+add_executable(world world.cc)
+target_link_libraries(world ${muduo_inspect})
+target_link_libraries(world ${muduo_http})
+target_link_libraries(world ${muduo_net})
+target_link_libraries(world ${muduo_base})
+target_link_libraries(world lua)
+target_link_libraries(world pthread rt)
