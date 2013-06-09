@@ -39,13 +39,20 @@ string reload(Lua* lua)
   }
 }
 
+string reset(Lua* lua)
+{
+  lua->reset();
+  return reload(lua);
+}
+
 int main(int argc, char* argv[])
 {
   Lua lua;
-  reload(&lua);
+  LOG_INFO << reload(&lua);
   EventLoop loop;
   Inspector ins(&loop, InetAddress(12345), "world");
   ins.add("world", "reload", boost::bind(reload, &lua), "reload world.lua");
+  ins.add("world", "reset", boost::bind(reset, &lua), "reset lua state");
 
   ins.add("world", "basic", boost::bind(&Lua::callStringFunc, &lua, "basic"), "basic info");
   ins.add("world", "stat", boost::bind(&Lua::callStringFunc, &lua, "stat"), "/proc/stat");

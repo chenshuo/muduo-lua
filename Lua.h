@@ -31,6 +31,13 @@ class Lua : boost::noncopyable
     return l_;
   }
 
+  void reset()
+  {
+    lua_close(l_);
+    l_ = luaL_newstate();
+    luaL_openlibs(l_);
+  }
+
   int loadstring(muduo::StringPiece str)
   {
     return luaL_loadstring(l_, str.data());
