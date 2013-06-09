@@ -78,6 +78,22 @@ class Lua : boost::noncopyable
     return result;
   }
 
+  string callStringFunc(const char* func, const char* arg)
+  {
+    string result;
+    lua_getglobal(l_, func);
+    lua_pushstring(l_, arg);
+
+    // FIXME: check
+    lua_pcall(l_, 1, 1, 0);
+    // FIXME: check
+    if (lua_isstring(l_, -1))
+    {
+      result = tostring();
+    }
+    pop();
+    return result;
+  }
  private:
   lua_State* l_;
 };

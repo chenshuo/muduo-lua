@@ -45,7 +45,16 @@ int main(int argc, char* argv[])
   reload(&lua);
   EventLoop loop;
   Inspector ins(&loop, InetAddress(12345), "world");
-  ins.add("world", "basic", boost::bind(&Lua::callStringFunc, &lua, "basic"), "basic info");
   ins.add("world", "reload", boost::bind(reload, &lua), "reload world.lua");
+
+  ins.add("world", "basic", boost::bind(&Lua::callStringFunc, &lua, "basic"), "basic info");
+  ins.add("world", "stat", boost::bind(&Lua::callStringFunc, &lua, "stat"), "/proc/stat");
+  ins.add("world", "loadavg", boost::bind(&Lua::callStringFunc, &lua, "loadavg"), "/proc/loadavg");
+  ins.add("world", "cpuinfo", boost::bind(&Lua::callStringFunc, &lua, "cpuinfo"), "/proc/cpuinfo");
+  ins.add("world", "version", boost::bind(&Lua::callStringFunc, &lua, "version"), "/proc/version");
+
+  ins.add("world", "tcp",
+      boost::bind(&Lua::callStringFunc, &lua, "readall", "/proc/net/tcp"), "/proc/net/tcp");
+
   loop.loop();
 }
