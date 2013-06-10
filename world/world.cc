@@ -1,4 +1,5 @@
 #include <Lua.h>
+#include <world/procfs.h>
 
 #include <muduo/base/FileUtil.h>
 #include <muduo/base/Logging.h>
@@ -18,6 +19,17 @@ string loadFile(const char* filename)
   return content;
 }
 
+ProcFs procFs;
+
+int l_readproc(lua_State* L)
+{
+  const char* filename = luaL_checkstring(L, 1);
+  int size = 0;
+  const char* result = procFs.readall(filename, &size);
+  lua_pushlstring(L, result, size);
+  return 1;
+}
+
 string reload(Lua* lua)
 {
   string luaprogram = loadFile("world.lua");
@@ -27,6 +39,7 @@ string reload(Lua* lua)
   }
   else
   {
+    lua_register(lua->state(), "readproc", l_readproc);
     if (lua->loadstring(luaprogram) == 0 &&
         lua->pcall(0, LUA_MULTRET) == 0)
     {

@@ -5,8 +5,12 @@ function readall(filename)
   return t
 end
 
-function basic()
+function hello()
   return "Hello, " .. _VERSION
+end
+
+function basic()
+  return "Hello, " .. readproc("/proc/cpuinfo")
 end
 
 function stat()
