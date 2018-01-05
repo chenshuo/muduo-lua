@@ -34,9 +34,9 @@ set(CXX_FLAGS
  )
 string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 
-set(CMAKE_CXX_COMPILER "g++")
+# set(CMAKE_CXX_COMPILER "g++")
 set(CMAKE_CXX_FLAGS_DEBUG "-O0")
-set(CMAKE_CXX_FLAGS_RELEASE "-O2 -finline-limit=1000 -DNDEBUG")
+set(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG")
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
 
@@ -57,9 +57,14 @@ message(STATUS ${muduo_net})
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
+find_package(Lua REQUIRED)
+message(STATUS "Found Lua ${LUA_VERSION_STRING} in ${LUA_INCLUDE_DIR}")
+include_directories(${LUA_INCLUDE_DIR})
+
+# TODO: if not found, build our own ?
+
 include_directories(${PROJECT_SOURCE_DIR})
 
-add_subdirectory(lua)
 add_subdirectory(hello)
 add_subdirectory(world)
 

@@ -27,7 +27,7 @@ class ProcFs : boost::noncopyable
  public:
   const char* readall(const char* filename, int* size)
   {
-    muduo::FileUtil::SmallFile* file = getFile(filename);
+    muduo::FileUtil::ReadSmallFile* file = getFile(filename);
     if (file->readToBuffer(size) == 0)
     {
       return file->buffer();
@@ -40,19 +40,19 @@ class ProcFs : boost::noncopyable
   }
 
  private:
-  muduo::FileUtil::SmallFile* getFile(string filename) // for insert(string&, T*)
+  muduo::FileUtil::ReadSmallFile* getFile(string filename) // for insert(string&, T*)
   {
     ProcFileMap::iterator it = procFiles_.find(filename);
     if (it == procFiles_.end())
     {
-      procFiles_.insert(filename, new muduo::FileUtil::SmallFile(filename));
+      procFiles_.insert(filename, new muduo::FileUtil::ReadSmallFile(filename));
     }
     it = procFiles_.find(filename);
     assert(it != procFiles_.end());
     return it->second;
   }
 
-  typedef boost::ptr_unordered_map<string, muduo::FileUtil::SmallFile> ProcFileMap;
+  typedef boost::ptr_unordered_map<string, muduo::FileUtil::ReadSmallFile> ProcFileMap;
   ProcFileMap procFiles_;
 };
 #endif
