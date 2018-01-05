@@ -14,6 +14,8 @@ mkdir -p $BUILD_DIR/lua-$BUILD_TYPE\
            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
            -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR \
            -DMUDUO_PATH=$MUDUO_DIR $SOURCE_DIR \
+           -DLUA_INCLUDE_DIR=/usr/include/luajit-2.1 \
+           -DLUA_LIBRARY=luajit-5.1 \
   && make $*
 
 # cd $SOURCE_DIR && doxygen

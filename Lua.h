@@ -16,6 +16,9 @@ class Lua : boost::noncopyable
   Lua()
     : l_(luaL_newstate())
   {
+#if defined(luaL_checkversion)  // Added in Lua 5.2
+    luaL_checkversion(l_);
+#endif
     luaL_openlibs(l_);
   }
 

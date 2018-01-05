@@ -57,11 +57,17 @@ message(STATUS ${muduo_net})
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
-find_package(Lua REQUIRED)
-message(STATUS "Found Lua ${LUA_VERSION_STRING} in ${LUA_INCLUDE_DIR}")
+if (LUA_INCLUDE_DIR AND LUA_LIBRARY)
+  message(STATUS "Use Lua in ${LUA_INCLUDE_DIR}")
+  set(LUA_LIBRARIES "${LUA_LIBRARY}")
+  message(STATUS "Lua libraries: ${LUA_LIBRARIES}")
+else()
+  # TODO: if not found, build our own ?
+  find_package(Lua REQUIRED)
+  message(STATUS "Found Lua ${LUA_VERSION_STRING} in ${LUA_INCLUDE_DIR}")
+  message(STATUS "Lua libraries: ${LUA_LIBRARIES}")
+endif()
 include_directories(${LUA_INCLUDE_DIR})
-
-# TODO: if not found, build our own ?
 
 include_directories(${PROJECT_SOURCE_DIR})
 
